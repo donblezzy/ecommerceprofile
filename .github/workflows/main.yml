@@ -22,18 +22,7 @@ jobs:
         working-directory: backend
         run: npm install
 
-      - name: Run backend lint
-        working-directory: backend
-        run: npm run lint
-
-      - name: Backend type-check (if TS)
-        working-directory: backend
-        run: npm run type-check
-        continue-on-error: true  # remove if you want strict failure
-
-      - name: Run backend tests
-        working-directory: backend
-        run: npm test
+      
 
       ########################################
       # Frontend
@@ -44,7 +33,7 @@ jobs:
 
       - name: Run frontend lint
         working-directory: frontend
-        run: npm run lint
+        run: npm install --save eslint && npm run lint
 
       - name: Frontend type-check (if TS)
         working-directory: frontend

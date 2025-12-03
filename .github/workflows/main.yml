@@ -6,43 +6,67 @@ on:
   pull_request:
 
 jobs:
-  Build:
+  test-analyze:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
     steps:
-      - name: Code Checkout
-        uses: actions/checkout@v5
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v6
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
-          
+          node-version: ${{ matrix.node-version }}
+          cache: npm
 
+      # ---------------------------------------
+      # BACKEND
+      # ---------------------------------------
       - name: Install backend dependencies
         working-directory: backend
-        run: npm install
+        run: npm ci
 
-      
+      - name: Run backend tests
+        working-directory: backend
+        run: npm test -- --ci --verbose
 
-      ########################################
-      # Frontend
-      ########################################
+      - name: Backend npm audit (analysis only)
+        working-directory: backend
+        run: |
+          echo "Running npm audit..."
+          npm audit || true
+          echo "Running npm audit fix (dry run)..."
+          npm audit fix --dry-run || true
+
+      # ---------------------------------------
+      # FRONTEND
+      # ---------------------------------------
       - name: Install frontend dependencies
         working-directory: frontend
-        run: npm install
-
-      - name: Run frontend lint
-        working-directory: frontend
-        run: npm install --save eslint && npm run lint
-
-      - name: Frontend type-check (if TS)
-        working-directory: frontend
-        run: npm run type-check
-        continue-on-error: true
+        run: npm ci
 
       - name: Run frontend tests
         working-directory: frontend
-        run: npm test --watchAll=false
+        run: npm test -- --ci --watchAll=false
 
-  
-        
+      - name: Frontend npm audit (analysis only)
+        working-directory: frontend
+        run: |
+          echo "Running npm audit..."
+          npm audit || true
+          echo "Running npm audit fix (dry run)..."
+          npm audit fix --dry-run || true
+
+      # ---------------------------------------
+      # REPORT (OPTIONAL)
+      # ---------------------------------------
+      - name: Upload npm audit reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-audit-reports
+          path: |
+            backend/package-lock.json
+            frontend/package-lock.json

@@ -42,7 +42,7 @@ jobs:
         working-directory: backend
 
       - name: Fix Vulnerabilities
-        run: npm audit fix
+        run:  npm audit fix --force
         working-directory: backend
 
       - name: Run Tests
@@ -68,7 +68,7 @@ jobs:
         working-directory: frontend
 
       - name: Fix Vulnerabilities
-        run: npm audit fix
+        run:  npm audit fix --force
         working-directory: frontend
 
       - name: Build Frontend

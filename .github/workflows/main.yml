@@ -7,7 +7,6 @@ on:
 jobs:
   backend:
     runs-on: ubuntu-latest
-    environment: github-pages
     env:
       CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
       CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
@@ -29,17 +28,14 @@ jobs:
       STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
 
     steps:
-      - name: Code Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
 
       # Cache backend dependencies
-      - name: Cache backend dependencies
-        uses: actions/cache@v3
+      - uses: actions/cache@v3
         with:
           path: backend/node_modules
           key: ${{ runner.os }}-backend-${{ hashFiles('backend/package-lock.json') }}
@@ -50,8 +46,8 @@ jobs:
         run: npm install
         working-directory: backend
 
-      - name: Fix Vulnerabilities
-        run: npm audit fix --force
+      - name: Audit Dependencies
+        run: npm audit --audit-level=high || true
         working-directory: backend
 
       - name: Run Tests
@@ -69,8 +65,7 @@ jobs:
           node-version: 18
 
       # Cache frontend dependencies
-      - name: Cache frontend dependencies
-        uses: actions/cache@v3
+      - uses: actions/cache@v3
         with:
           path: frontend/node_modules
           key: ${{ runner.os }}-frontend-${{ hashFiles('frontend/package-lock.json') }}
@@ -81,8 +76,8 @@ jobs:
         run: npm install
         working-directory: frontend
 
-      - name: Fix Vulnerabilities
-        run:  npm audit fix --force
+      - name: Audit Dependencies
+        run: npm audit --audit-level=high || true
         working-directory: frontend
 
       - name: Build Frontend
@@ -98,8 +93,7 @@ jobs:
     needs: [backend, frontend]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Install Trivy
         uses: aquasecurity/trivy-action@v1
@@ -125,11 +119,9 @@ jobs:
       name: github-pages
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v5
 
       - name: Deploy to GitHub Pages
         id: deployment

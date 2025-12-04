@@ -5,7 +5,8 @@ on: [push, pull_request]
 jobs:
   backend:
     runs-on: ubuntu-latest
-    env: ${{ secrets.ENV }}
+    env: 
+      ENV: ${{ secrets.ENV }}
     steps:
       - uses: actions/checkout@v4
 

@@ -6,7 +6,25 @@ jobs:
   backend:
     runs-on: ubuntu-latest
     env: 
-      ENV: ${{ secrets.ENV }}
+      ENV: ${{ secrets.CLOUDINARY_API_KEY }}
+      ENV: ${{ secrets.CLOUDINARY_API_SECRET }}
+      ENV: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
+      ENV: ${{ secrets.COOKIE_EXPIRES_TIME }}
+      ENV: ${{ secrets.DB_URI }}
+      ENV: ${{ secrets.FRONTEND_URL }}
+      ENV: ${{ secrets.JWT_EXPIRES_TIME }}
+      ENV: ${{ secrets.JWT_SECRET }}
+      ENV: ${{ secrets.NODE_ENV }}
+      ENV: ${{ secrets.PORT }}
+      ENV: ${{ secrets.SMTP_EMAIL }}
+      ENV: ${{ secrets.SMTP_FROM_EMAIL }}
+      ENV: ${{ secrets.SMTP_FROM_NAME }}
+      ENV: ${{ secrets.SMTP_HOST }}
+      ENV: ${{ secrets.SMTP_PASSWORD }}
+      ENV: ${{ secrets.SMTP_PORT }}
+      ENV: ${{ secrets.STRIPE_SECRET_KEY }}
+      ENV: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
+
     steps:
       - uses: actions/checkout@v4
 

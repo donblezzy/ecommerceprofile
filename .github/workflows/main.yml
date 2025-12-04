@@ -93,19 +93,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Trivy
-        uses: aquasecurity/trivy-action@v2
+      - name: Run Trivy filesystem scan
+        uses: aquasecurity/trivy-action@0.28.0
         with:
+          scan-type: fs
+          scan-ref: .
           format: table
-          severity: CRITICAL,HIGH
           exit-code: 0
-          scan-type: all
+          severity: CRITICAL,HIGH
 
       - name: Upload trivy scan results as artifact
         uses: actions/upload-artifact@v4
         with:
           name: trivy-scan-results
           path: .
+
+    
 
   deploy:
     needs: trivy_scan

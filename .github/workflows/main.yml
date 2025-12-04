@@ -41,6 +41,9 @@ jobs:
 
   deploy:
     needs: frontend
+    permissions:
+      pages: write       # allows deploying to GitHub Pages
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

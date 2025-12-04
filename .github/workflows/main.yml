@@ -37,20 +37,25 @@ jobs:
         with:
           node-version: 18
 
+      # Cache backend dependencies
+      - name: Cache backend dependencies
+        uses: actions/cache@v3
+        with:
+          path: backend/node_modules
+          key: ${{ runner.os }}-backend-${{ hashFiles('backend/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-backend-
+
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
         working-directory: backend
 
       - name: Fix Vulnerabilities
-        run:  npm audit fix --force
+        run: npm audit fix --force
         working-directory: backend
 
       - name: Run Tests
         run: npm test
-        working-directory: backend
-
-      - name: Start Server
-        run: npm run prod
         working-directory: backend
 
   frontend:
@@ -63,12 +68,21 @@ jobs:
         with:
           node-version: 18
 
+      # Cache frontend dependencies
+      - name: Cache frontend dependencies
+        uses: actions/cache@v3
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.os }}-frontend-${{ hashFiles('frontend/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-frontend-
+
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
         working-directory: frontend
 
       - name: Fix Vulnerabilities
-        run:  npm audit fix --force
+        run: npm audit fix --force
         working-directory: frontend
 
       - name: Build Frontend

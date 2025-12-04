@@ -34,7 +34,7 @@ jobs:
         working-directory: frontend
 
   
-        - name: Upload production-ready build
+      - name: Upload production-ready build
         uses: actions/upload-pages-artifact@v3
         with:
           path: client/build

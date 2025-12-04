@@ -1,6 +1,8 @@
 name: Full Stack CI
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
 
 jobs:
   backend:
@@ -26,7 +28,6 @@ jobs:
       STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
       STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
 
-
     steps:
       - name: Code Checkout
         uses: actions/checkout@v4
@@ -36,23 +37,20 @@ jobs:
         with:
           node-version: 18
 
-      
       - name: Install Dependencies
         run: npm install
         working-directory: backend
 
-      
+      - name: Fix Vulnerabilities
+        run: npm audit fix
+        working-directory: backend
+
       - name: Run Tests
         run: npm test
         working-directory: backend
 
-      
- 
       - name: Start Server
         run: npm run prod
-        working-directory: backend
-
-      - run: npm test
         working-directory: backend
 
   frontend:
@@ -65,39 +63,54 @@ jobs:
         with:
           node-version: 18
 
-      - run: npm install
+      - name: Install Dependencies
+        run: npm install
         working-directory: frontend
 
-      - run: npm run build
+      - name: Fix Vulnerabilities
+        run: npm audit fix
         working-directory: frontend
 
-  
+      - name: Build Frontend
+        run: npm run build
+        working-directory: frontend
+
       - name: Upload production-ready build
         uses: actions/upload-pages-artifact@v3
         with:
           path: frontend/build
 
+  trivy_scan:
+    needs: [backend, frontend]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Trivy
+        uses: aquasecurity/trivy-action@v1
+        with:
+          version: 'latest'
+
+      - name: Run Trivy filesystem scan
+        run: |
+          trivy fs --exit-code 1 --severity CRITICAL,HIGH .
+
   deploy:
-    needs: frontend
+    needs: trivy_scan
     permissions:
-      pages: write       # allows deploying to GitHub Pages
+      pages: write
       id-token: write
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
-     
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
- 
-
-
-
-      

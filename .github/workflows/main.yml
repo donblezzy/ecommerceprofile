@@ -111,7 +111,7 @@ jobs:
     
 
   deploy:
-    needs: [ frontend, trivy_scan ]
+    needs: [ backend, frontend, trivy_scan ]
     if: github.ref == 'refs/heads/main'
     permissions:
       pages: write       # allows deploying to GitHub Pages

@@ -58,9 +58,6 @@ jobs:
         run: npm test
         working-directory: backend
 
-     
- 
-
   frontend:
     needs: backend
     runs-on: ubuntu-latest

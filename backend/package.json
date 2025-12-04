@@ -7,7 +7,7 @@
     "test": "echo \"No tests found\"",
     "start": "node backend/server.js",
     "dev": "SET NODE_ENV=DEVELOPMENT& nodemon backend/server.js",
-    "prod": "SET NODE_ENV=PRODUCTION& nodemon backend/server.js",
+    "prod": "SET NODE_ENV=PRODUCTION nodemon backend/server.js",
     "seeder": "node backend/seeder/seeder.js"
   },
   "keywords": [],

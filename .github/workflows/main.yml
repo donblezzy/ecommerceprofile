@@ -87,7 +87,7 @@ jobs:
         working-directory: frontend
 
       - name: Fix Vulnerabilities
-        run: npm audit fix --force
+        run: npm audit fix 
         working-directory: frontend
 
       - name: Build Frontend

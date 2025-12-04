@@ -19,6 +19,7 @@ jobs:
         working-directory: backend
 
   frontend:
+    needs: backend
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

@@ -58,6 +58,11 @@ jobs:
         run: npm test
         working-directory: backend
 
+      - name: Build Backend
+        run: npm run prod
+        working-directory: backend
+ 
+
   frontend:
     needs: backend
     runs-on: ubuntu-latest

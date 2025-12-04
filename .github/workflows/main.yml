@@ -32,3 +32,22 @@ jobs:
 
       - run: npm run build
         working-directory: frontend
+
+  
+        - name: Upload production-ready build
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: client/build
+
+  deploy:
+    needs: [frontend]
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+
+    steps:
+      - uses: actions/deploy-pages@v4
+
+
+      

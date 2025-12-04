@@ -5,25 +5,26 @@ on: [push, pull_request]
 jobs:
   backend:
     runs-on: ubuntu-latest
-    env: 
-      ENV: ${{ secrets.CLOUDINARY_API_KEY }}
-      ENV: ${{ secrets.CLOUDINARY_API_SECRET }}
-      ENV: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
-      ENV: ${{ secrets.COOKIE_EXPIRES_TIME }}
-      ENV: ${{ secrets.DB_URI }}
-      ENV: ${{ secrets.FRONTEND_URL }}
-      ENV: ${{ secrets.JWT_EXPIRES_TIME }}
-      ENV: ${{ secrets.JWT_SECRET }}
-      ENV: ${{ secrets.NODE_ENV }}
-      ENV: ${{ secrets.PORT }}
-      ENV: ${{ secrets.SMTP_EMAIL }}
-      ENV: ${{ secrets.SMTP_FROM_EMAIL }}
-      ENV: ${{ secrets.SMTP_FROM_NAME }}
-      ENV: ${{ secrets.SMTP_HOST }}
-      ENV: ${{ secrets.SMTP_PASSWORD }}
-      ENV: ${{ secrets.SMTP_PORT }}
-      ENV: ${{ secrets.STRIPE_SECRET_KEY }}
-      ENV: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
+    env:
+      CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
+      CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
+      CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
+      COOKIE_EXPIRES_TIME: ${{ secrets.COOKIE_EXPIRES_TIME }}
+      DB_URI: ${{ secrets.DB_URI }}
+      FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
+      JWT_EXPIRES_TIME: ${{ secrets.JWT_EXPIRES_TIME }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      NODE_ENV: ${{ secrets.NODE_ENV }}
+      PORT: ${{ secrets.PORT }}
+      SMTP_EMAIL: ${{ secrets.SMTP_EMAIL }}
+      SMTP_FROM_EMAIL: ${{ secrets.SMTP_FROM_EMAIL }}
+      SMTP_FROM_NAME: ${{ secrets.SMTP_FROM_NAME }}
+      SMTP_HOST: ${{ secrets.SMTP_HOST }}
+      SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+      SMTP_PORT: ${{ secrets.SMTP_PORT }}
+      STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+      STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
+
 
     steps:
       - uses: actions/checkout@v4

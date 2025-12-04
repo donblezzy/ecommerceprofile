@@ -78,7 +78,7 @@ jobs:
             ${{ runner.os }}-frontend-
 
       - name: Install Dependencies
-        run: npm Install
+        run: npm install
         working-directory: frontend
 
       - name: Fix Vulnerabilities

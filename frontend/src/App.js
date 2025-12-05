@@ -15,7 +15,7 @@ export const App = () => {
   const userRoutes = useUserRoutes()
   const adminRoutes = useAdminRoutes()
   return (
-    <Router>
+    <Router basename="/ecommerceprofile">
       <div className="App">
         <Toaster position="top-center" />
         <Header />
